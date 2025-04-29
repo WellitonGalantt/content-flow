@@ -1,11 +1,14 @@
-import Router from 'express'
+import Router from 'express';
+import { AuthController } from '../controllers/AuthControllers';
 
-const router = Router();
+const authRouter = Router();
 
-router.post('auth/register');
+authRouter.post('/register', AuthController.registerUser);
 
-router.post('auth/login');
+// authRouter.post('/register/telephone', AuthController.registerTelephone);
 
-router.delete('auth/delete');
+authRouter.post('/login', AuthController.loginUser);
 
-export default router
+authRouter.delete('/delete/:id', AuthController.deleteUser);
+
+export default authRouter;

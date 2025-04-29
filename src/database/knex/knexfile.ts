@@ -2,7 +2,7 @@ import { Knex } from 'knex';
 import * as dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({path: path.resolve(__dirname, '../../../.env')});
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 export const development: Knex.Config = {
     client: 'pg',
@@ -11,21 +11,21 @@ export const development: Knex.Config = {
         port: Number(process.env.DB_PORT),
         database: process.env.DB_DBNAME,
         user: process.env.DB_USER,
-        password: String(process.env.DB_PASSWORD)
+        password: String(process.env.DB_PASSWORD),
     },
     migrations: {
         tableName: 'knex_migrations',
         directory: './migrations',
     },
-    seeds:{
+    seeds: {
         directory: './seeds',
-    }
-}
+    },
+};
 
 export const test: Knex.Config = {
-    ...development
-}
+    ...development,
+};
 
 export const production: Knex.Config = {
-    ...development
-}
+    ...development,
+};

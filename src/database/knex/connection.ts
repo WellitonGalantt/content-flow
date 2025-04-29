@@ -3,16 +3,20 @@ import { development, test, production } from './knexfile';
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({path: path.resolve(__dirname, '../../../.env')});
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
-const getEnvoriment = ()=> {
-    switch(process.env.NODE_ENV) {
-        case 'dev':return development;
-        case 'production': return production;
-        case 'test': return test;
-        default: return development;
+const getEnvoriment = () => {
+    switch (process.env.NODE_ENV) {
+        case 'dev':
+            return development;
+        case 'production':
+            return production;
+        case 'test':
+            return test;
+        default:
+            return development;
     }
-}
+};
 
 export const db = knex(getEnvoriment());
 

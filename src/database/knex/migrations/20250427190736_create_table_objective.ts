@@ -1,20 +1,15 @@
-import type { Knex } from "knex";
-
+import type { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
-    return knex
-        .schema
-        .createTable('objective', table => {
-            table.bigIncrements('id').primary().index();
-            table.string('objective').notNullable();
+    return knex.schema.createTable('objective', (table) => {
+        table.bigIncrements('id').primary().index();
+        table.string('objective').notNullable();
 
-            table.integer('project_id').unsigned().notNullable();
-            table.foreign('project_id').references('id').inTable('project');
-        })
+        table.integer('project_id').unsigned().notNullable();
+        table.foreign('project_id').references('id').inTable('project');
+    });
 }
-
 
 export async function down(knex: Knex): Promise<void> {
     return knex.schema.dropTable('objective');
 }
-
