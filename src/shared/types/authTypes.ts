@@ -8,7 +8,7 @@ export interface IRegisterUser {
 }
 
 export interface ITelephoneUser {
-    ddd: number;
-    number: number;
+    ddd: string;
+    number: string;
     notfication: boolean;
 }

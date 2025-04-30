@@ -3,13 +3,12 @@ import * as yup from 'yup';
 import StatusCodes from 'http-status-codes';
 import { IReturnDatas } from '../shared/types/appTypes';
 
-export class AuthMiddleware {
+export class Middlewares {
     static validateSchema(schema: yup.ObjectSchema<any>) {
         return async (req: Request, res: Response<IReturnDatas>, next: NextFunction) => {
             try {
-                schema.validate(req.body, { abortEarly: true });
+                await schema.validate(req.body, { abortEarly: false });
                 next();
-                return;
             } catch (error) {
                 const yupError = error as yup.ValidationError;
                 res.status(StatusCodes.BAD_REQUEST).json({
@@ -17,8 +16,9 @@ export class AuthMiddleware {
                     statusCode: StatusCodes.BAD_REQUEST,
                     data: {},
                     message: 'Erro no envio dos dados!',
-                    error: yupError,
+                    error: yupError.errors,
                 });
+                return;
             }
         };
     }
