@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
         table.integer('number', 9).unsigned().notNullable();
         table.boolean('notfication').notNullable();
         table.integer('user_id').unsigned().notNullable(); // unsigned nao pode ser negativo
-        table.foreign('user_id').references('id').inTable('user'); // reference a coluna de referencia para a chave estrangeira, e inTable de qual tabela;
+        table.foreign('user_id').references('id').inTable('users'); // reference a coluna de referencia para a chave estrangeira, e inTable de qual tabela;
 
         table.timestamp('created_at', { useTz: true }).defaultTo(knex.fn.now());
         table.timestamp('updated_at', { useTz: true }).defaultTo(knex.fn.now());

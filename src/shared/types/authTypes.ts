@@ -1,10 +1,17 @@
-export interface IRegisterUser {
+export interface IRegisterUser extends  ICreateUser{
     id?: number;
+    confirm_password: string;
+    telephone: ITelephoneUser;
+}
+
+export interface ICreateUser {
     name: string;
     email: string;
     password: string;
-    confirm_password: string;
-    telephone: ITelephoneUser;
+}
+
+export interface ICreateTelephone extends ITelephoneUser {
+    user_id: number
 }
 
 export interface ITelephoneUser {

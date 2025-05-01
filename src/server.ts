@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 
 app.use('/auth', authRouter);
-app.use('/contentflow/api', router);
+// app.use('/contentflow/api', router);
 
 testDbConnection()
     .then(() => {

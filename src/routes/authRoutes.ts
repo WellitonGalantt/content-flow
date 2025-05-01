@@ -11,6 +11,9 @@ authRouter.post('/register', Middlewares.validateSchema(registerSchema), AuthCon
 
 authRouter.post('/login', Middlewares.validateSchema(loginSchema), AuthController.loginUser);
 
-authRouter.delete('/delete/:id', AuthController.deleteUser);
+authRouter.delete('/delete/:id', Middlewares.validateJwtToken(), AuthController.deleteUser);
+
+authRouter.get('/user/:id', AuthController.getUserById);
+
 
 export default authRouter;

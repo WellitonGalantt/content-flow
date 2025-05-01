@@ -1,8 +1,8 @@
 import type { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
-    return knex.schema.createTable('user', (table) => {
-        // user é o nome da tabela e table é um builder de tabelas;
+    return knex.schema.createTable('users', (table) => {
+        // users é o nome da tabela e table é um builder de tabelas;
         table.bigIncrements('id').primary().index();
         table.string('name', 60).notNullable().index();
         table.string('email').notNullable();
@@ -14,5 +14,5 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-    return knex.schema.dropTable('user');
+    return knex.schema.dropTable('users');
 }
