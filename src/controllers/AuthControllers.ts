@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { IRegisterUser, ITelephoneUser } from '../shared/types/authTypes';
 import { IReturnDatas } from '../shared/types/appTypes';
-import statusCode, { StatusCodes } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { AuthServices } from '../services/AuthServices';
 import { JwtToken } from '../utils/JwtToken';
 
@@ -36,9 +36,9 @@ export class AuthController {
         const data = req.body;
         const result = await AuthServices.createUser(data);
         if (result instanceof Error) {
-            res.status(statusCode.BAD_REQUEST).json({
+            res.status(StatusCodes.BAD_REQUEST).json({
                 sucess: false,
-                statusCode: statusCode.BAD_REQUEST,
+                statusCode: StatusCodes.BAD_REQUEST,
                 data: {},
                 message: result.message,
                 error: { result },
@@ -46,7 +46,7 @@ export class AuthController {
             return
         }
 
-        res.status(statusCode.OK).json({
+        res.status(StatusCodes.OK).json({
             sucess: true,
             statusCode: 200,
             data: { id: result },
@@ -55,48 +55,15 @@ export class AuthController {
         });
     }
 
-    static async deleteUser(req: Request<{ id?: number }>, res: Response) {
-        const userId = req.params.id;
-
-        if (userId) {
-            if (isNaN(userId)) {
-                res.status(statusCode.BAD_REQUEST).json({
-                    sucess: false,
-                    statusCode: statusCode.BAD_REQUEST,
-                    data: {},
-                    message: 'O parametro id deve ser um numero',
-                    error: { error: 'Id invalido' },
-                });
-                return
-            }
-        } else {
-            res.status(statusCode.NO_CONTENT).json({
-                sucess: false,
-                statusCode: statusCode.NO_CONTENT,
-                data: {},
-                message: 'O parametro id do usuario deve ser origatorio!',
-                error: { error: 'Id invalido' },
-            });
-            return
-        }
-
-        if(userId != req.user.id){
-            res.status(statusCode.BAD_REQUEST).json({
-                sucess: false,
-                statusCode: statusCode.BAD_REQUEST,
-                data: {},
-                message: 'Erro ao excluir usuario!',
-                error: { error: 'Voce nao tem permisao para excluir outros usuraios!' },
-            });
-            return
-        }
+    static async deleteUser(req: Request, res: Response) {
+        const userId = Number(req.params.id);
 
         const result = await AuthServices.deleteUser(userId);
 
         if (result instanceof Error) {
-            res.status(statusCode.BAD_REQUEST).json({
+            res.status(StatusCodes.BAD_REQUEST).json({
                 sucess: false,
-                statusCode: statusCode.BAD_REQUEST,
+                statusCode: StatusCodes.BAD_REQUEST,
                 data: {},
                 message: result.message,
                 error: { result },
@@ -104,10 +71,7 @@ export class AuthController {
             return
         }
 
-        req.headers.authorization = '';
-        req.user = {};
-
-        res.status(statusCode.OK).json({
+        res.status(StatusCodes.OK).json({
             sucess: true,
             statusCode: 200,
             data: userId,
@@ -116,16 +80,29 @@ export class AuthController {
         });
     }
 
-    static async getUserById(req: Request<{ id: number }>, res: Response) {
-        const userId = req.params.id;
+    static async getUserById(req: Request, res: Response) {
+        const userId = Number(req.params.id);
 
-        res.status(statusCode.OK).json({
+        const result = await AuthServices.getUserById(userId);
+
+        if (result instanceof Error) {
+            res.status(StatusCodes.BAD_REQUEST).json({
+                sucess: false,
+                statusCode: StatusCodes.BAD_REQUEST,
+                data: {},
+                message: result.message,
+                error: { result },
+            });
+            return
+        }
+
+        res.status(StatusCodes.OK).json({
             sucess: true,
             statusCode: 200,
-            data: userId,
-            message: 'Usuario achado com sucesso!',
+            data: result,
+            message: 'Usuario encontrado com sucesso!',
             error: {},
-        })
+        });
 
     }
 

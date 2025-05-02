@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as yup from 'yup';
-import StatusCodes from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { IReturnDatas } from '../shared/types/appTypes';
 import { JwtToken } from '../utils/JwtToken';
 
@@ -24,6 +24,42 @@ export class Middlewares {
         };
     }
 
+    static validateIdParam() {
+        return (req: Request<{ id?: string }>, res: Response, next: NextFunction) => {
+            const userId = Number(req.params.id);
+            if (userId) {
+                if (isNaN(userId)) {
+                    res.status(StatusCodes.BAD_REQUEST).json({
+                        statusCode: StatusCodes.BAD_REQUEST,
+                        message: 'O parametro id deve ser um numero',
+                        error: 'Id invalido'
+                    });
+                    return;
+                }
+            } else {
+                res.status(StatusCodes.NO_CONTENT).json({
+                    statusCode: StatusCodes.NO_CONTENT,
+                    message: 'O parametro id do usuario deve ser origatorio!',
+                    error: 'Id invalido'
+                });
+                return;
+            }
+
+            if (userId != req.user.id) {
+                res.status(StatusCodes.BAD_REQUEST).json({
+                    sucess: false,
+                    statusCode: StatusCodes.BAD_REQUEST,
+                    data: {},
+                    message: 'Erro de permisao!',
+                    error: { error: 'Voce nao tem permisao para excluir outros usuraios!' },
+                });
+                return
+            }
+
+            next();
+        }
+    }
+
     static validateJwtToken() {
         return (req: Request, res: Response, next: NextFunction) => {
             const authHeader = req.headers.authorization
@@ -35,13 +71,13 @@ export class Middlewares {
                     statusCode: StatusCodes.BAD_REQUEST,
                     data: {},
                     message: 'Erro ao pegar o token',
-                    error: {error: 'Token nao encontrado'},
+                    error: { error: 'Token nao encontrado' },
                 })
                 return;
             }
 
             const decodedToken = JwtToken.varifyToken(token);
-            if(decodedToken instanceof Error){
+            if (decodedToken instanceof Error) {
                 res.status(StatusCodes.BAD_REQUEST).json({
                     sucess: false,
                     statusCode: StatusCodes.BAD_REQUEST,

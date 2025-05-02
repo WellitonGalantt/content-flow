@@ -9,7 +9,6 @@ export class AuthModels {
     }
 
     static async updateUser() {
-
     }
 
     static async deleteUser(userId:number) {
@@ -18,11 +17,11 @@ export class AuthModels {
     }
 
     static async getUserById(userId: number) {
-        return db('users').where('id', userId).first();
+        return await db('users').where('id', userId).first().returning('*');
     }
 
     static async verifyExistUser(email: string) {
-        return db('users').where('email', email).first();
+        return await db('users').where('email', email).first();
     }
 
     static async createTelephone(telephoneData: ICreateTelephone, trx: Knex.Transaction) {

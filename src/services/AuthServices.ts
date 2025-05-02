@@ -72,7 +72,6 @@ export class AuthServices {
     }
 
     static async updateUser() {
-
     }
 
     static async deleteUser(userId: number): Promise<Error | void> {
@@ -94,7 +93,21 @@ export class AuthServices {
         
     }
 
-    static async getUserById() {
-
+    static async getUserById(userId: number): Promise<object | Error> {
+        try {
+            const verifyExistUser = await AuthModels.getUserById(userId);
+            if(!verifyExistUser){
+                return new Error('Usuario nao encontrado!');
+            }
+            
+            return verifyExistUser;
+        }
+        catch (err) {
+            if(err instanceof Error){
+                return err
+            }else{
+                return new Error('Aconteceu um erro desconhecido: ' + err)
+            }
+        }
     }
 }
