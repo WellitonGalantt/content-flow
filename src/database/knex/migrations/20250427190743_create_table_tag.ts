@@ -6,10 +6,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string('color').notNullable();
         table.string('tag_name', 12).notNullable();
 
-        table.integer('project_id').unsigned().notNullable();
-        table.foreign('project_id').references('id').inTable('project');
-
-        table.timestamp('created_at', { useTz: true });
+        table.timestamp('created_at', { useTz: true }).defaultTo(knex.fn.now());
     });
 }
 

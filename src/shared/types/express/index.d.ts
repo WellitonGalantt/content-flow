@@ -1,8 +1,6 @@
 import { Request } from 'express';
 import { ITokenPayload } from '../interfaces'; // Ajuste o caminho para sua interface ITokenPayload
 
-
-
 declare module 'express' {
     interface Request {
         user?: ITokenPayload;

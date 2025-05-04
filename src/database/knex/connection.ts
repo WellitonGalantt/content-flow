@@ -1,9 +1,8 @@
 import knex from 'knex';
 import { development, test, production } from './knexfile';
 import dotenv from 'dotenv';
-import path from 'path';
 
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+dotenv.config();
 
 const getEnvoriment = () => {
     switch (process.env.NODE_ENV) {

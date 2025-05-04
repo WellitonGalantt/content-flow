@@ -32,7 +32,7 @@ export class Middlewares {
                     res.status(StatusCodes.BAD_REQUEST).json({
                         statusCode: StatusCodes.BAD_REQUEST,
                         message: 'O parametro id deve ser um numero',
-                        error: 'Id invalido'
+                        error: 'Id invalido',
                     });
                     return;
                 }
@@ -40,7 +40,7 @@ export class Middlewares {
                 res.status(StatusCodes.NO_CONTENT).json({
                     statusCode: StatusCodes.NO_CONTENT,
                     message: 'O parametro id do usuario deve ser origatorio!',
-                    error: 'Id invalido'
+                    error: 'Id invalido',
                 });
                 return;
             }
@@ -53,17 +53,17 @@ export class Middlewares {
                     message: 'Erro de permisao!',
                     error: { error: 'Voce nao tem permisao para excluir outros usuraios!' },
                 });
-                return
+                return;
             }
 
             next();
-        }
+        };
     }
 
     static validateJwtToken() {
         return (req: Request, res: Response, next: NextFunction) => {
-            const authHeader = req.headers.authorization
-            const token = authHeader ? authHeader.split(' ')[1] : '';
+            const authHeader = req.headers.authorization;
+            const token = authHeader?.includes('Bearer') ? authHeader.split(' ')[1] : authHeader;
 
             if (!token) {
                 res.status(StatusCodes.BAD_REQUEST).json({
@@ -72,7 +72,7 @@ export class Middlewares {
                     data: {},
                     message: 'Erro ao pegar o token',
                     error: { error: 'Token nao encontrado' },
-                })
+                });
                 return;
             }
 
@@ -84,13 +84,13 @@ export class Middlewares {
                     data: {},
                     message: 'Erro ao verificar o token',
                     error: decodedToken,
-                })
+                });
                 return;
             }
 
             req.user = decodedToken;
             next();
             return;
-        }
+        };
     }
 }

@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { db } from '../database/knex/connection'
+import { db } from '../database/knex/connection';
 import { ICreateUser, ICreateTelephone } from '../shared/types/authTypes';
 
 export class AuthModels {
@@ -8,10 +8,9 @@ export class AuthModels {
         return result[0].id;
     }
 
-    static async updateUser() {
-    }
+    static async updateUser() {}
 
-    static async deleteUser(userId:number) {
+    static async deleteUser(userId: number) {
         await db('telephone').delete().where('user_id', userId);
         await db('users').delete().where('id', userId);
     }

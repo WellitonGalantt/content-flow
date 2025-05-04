@@ -1,0 +1,88 @@
+{
+    "titulo_principal": "O Segredo Por Trás dos Filmes de Super-Herói QUE VOCÊ NUNCA PERCEBEU!",
+    "roteiro": [
+        {
+            "titulo_curto": "Por Que Amamos Tanto Super-Heróis?",
+            "descricao": "Introdução sobre a paixão global por filmes de super-heróis e o que eles representam.",
+            "falas": [
+                "Pensa comigo... O que faz um homem vestir uma capa e arriscar a vida por desconhecidos?",
+                "Você já parou pra pensar por que esses filmes arrebatam bilhões e viram religião? Não é só efeito especial, manolo!",
+                "A verdade é que super-heróis são ESPELHOS. A gente vê neles o que gostaríamos de ser: coragem, poder... até a roupa colada, se pá! (risos)"
+            ],
+            "exemplos": [
+                "Homem-Aranha: um moleque que vira herói por acidente, igual a gente que se vira nos 30 no trampo.",
+                "Capitão América: o franguinho que vira símbolo de resistência. Quem nunca quis dar essa volta por cima?"
+            ]
+        },
+        {
+            "titulo_curto": "O HERÓI QUE FALHA (E ISSO É GENIAL!)",
+            "descricao": "Mostrar como falhas humanizam os heróis e criam identificação.",
+            "falas": [
+                "Mano, olha isso! Superman já chorou por não salvar o pai. Batman erra e fica coxo. Até os DEUSES têm crises!",
+                "Agora vem o mais louco: é JUSTO quando falham que a gente ama mais. Parece contradição, mas é psicanálise pura!",
+                "Exemplo besta: você já torceu mais pro Vizão da Marvel quando ele tava se f*dendo do que quando tacava laser? POIS É."
+            ],
+            "exemplos": [
+                "Homem de Ferro 3: Tony Stark com ataques de pânico mostrou que heróis têm ansiedade igual a gente.",
+                "Wanda em 'Multidão da Loucura': fez merda colossal por amor. Quem nunca?"
+            ]
+        },
+        {
+            "titulo_curto": "O VILÃO QUE TE FAZ PENSAR: 'E SE...'",
+            "descricao": "Analisar vilões icônicos e como eles são espelhos distorcidos dos heróis.",
+            "falas": [
+                "Pergunta que não quer calar: quem é mais foda, o Coringa ou o Batman? P***, o Coringa tem MOTIVAÇÃO!",
+                "Coringa não é 'mau'. Ele é o caos que a gente tem vontade de ser quando o chegue humilha. (olha os olhos brilhando aí!)",
+                "E o Thanos? Maluco quis matar meio universo... POR AMOR À NATUREZA! Você nunca desejou acabar com o trânsito? SEJAMOS HONESTOS."
+            ],
+            "exemplos": [
+                "Coringa (2019): mostrou que um empurrãozinho da vida transforma qualquer Zé ninguém em lenda.",
+                "Loki: de vilão a amado. Por que? Porque todo mundo quer ser o irmão problemático às vezes."
+            ]
+        },
+        {
+            "titulo_curto": "A BATALHA EPIC QUE VOCÊ NUNCA VIU (DE VERDADE)",
+            "descricao": "Revelar truques de roteiro por trás das cenas de ação memoráveis.",
+            "falas": [
+                "Agora vem o pulo do gato! Todo soco em 'Capitão América 3' foi calculado por PSICÓLOGOS. Sério!",
+                "Olha que doidera: quando heróis lutam de noite na chuva (tipo Batman), não é estilo... é pra esconder CG ruim! GENIAL!",
+                "E aquela cena do Homem-Aranha segurando as partes do ferry? Você TREMIA. Sabia que isso tem nome? 'Técnica do Relógio' – o público conta os segundos!"
+            ],
+            "exemplos": [
+                "Batalha da Terra-Média em 'Vingadores': cada herói teve seu 'momento glory' pra agradar fãs específicos.",
+                "Mulher-Maravilha entrando no campo de batalha – só a trilha sonora já arrepia. Ciência pura!"
+            ]
+        },
+        {
+            "titulo_curto": "O FUTURO DOS HERÓIS (E SEU LADO SOMBRIO)",
+            "descricao": "Previsões sobre tendências e críticas ao gênero.",
+            "falas": [
+                "Tá vendo 'The Boys'? A próxima era é DESCONSTRUIR heróis. Política, sarcasmo... e MUITO sangue!",
+                "Vou falar a real: a Marvel tá enfiando CGI até em cameo de ator morto. Isso é saudável? Pensa aí...",
+                "Mas ainda tem jóia! 'Homem-Aranha no Aranhaverso' mostrou que originalidade SALVA. Quer prova? Esse filme tem herói-PASTELÃO!"
+            ],
+            "exemplos": [
+                "'Wandinha': misturou herói com terror e deu certo. Aposta ousada!",
+                "'Pantera Negra 2' lidou com morte real de ator. Sensibilidade que muitas religiões não têm..."
+            ]
+        }
+    ],
+    "palavras_chave": [
+        "segredo filmes super herói",
+        "porque amamos super heróis",
+        "vilões melhores que heróis",
+        "técnicas batalhas cinematográficas",
+        "futuro dos filmes de herói",
+        "vingadores teoria psicológica",
+        "batman vs coringa análise"
+    ],
+    "publico_alvo": [
+        "Fãs de quadrinhos e cinema",
+        "Jovens de 16-35 anos interessados em cultura pop",
+        "Aspirantes a roteiristas ou cineastas",
+        "Pessoas que curtem análises de filmes com humor",
+        "Gamers e fãs de ficção"
+    ],
+    "objetivo": "Entreter e provocar reflexões sobre a construção narrativa e psicológica por trás dos filmes de super-heróis, mostrando curiosidades e técnicas pouco discutidas.",
+    "prompt_imagem_capa": "A dramatic close-up of a deconstructed superhero mask half shattered, revealing a human eye behind it, neon-colored comic book particles floating around, dark cinematic lighting, ultra HD, trending on ArtStation."
+}

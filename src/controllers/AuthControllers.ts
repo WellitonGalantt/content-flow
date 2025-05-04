@@ -16,8 +16,8 @@ export class AuthController {
                 statusCode: StatusCodes.BAD_REQUEST,
                 data: {},
                 message: 'Erro ao fazer o login: ' + result.message,
-                error: result
-            })
+                error: result,
+            });
             return;
         }
 
@@ -28,7 +28,7 @@ export class AuthController {
             statusCode: StatusCodes.OK,
             data: { token: token },
             message: 'Usuario logado com sucesso!',
-            error: {}
+            error: {},
         });
     }
 
@@ -43,7 +43,7 @@ export class AuthController {
                 message: result.message,
                 error: { result },
             });
-            return
+            return;
         }
 
         res.status(StatusCodes.OK).json({
@@ -68,7 +68,7 @@ export class AuthController {
                 message: result.message,
                 error: { result },
             });
-            return
+            return;
         }
 
         res.status(StatusCodes.OK).json({
@@ -93,7 +93,7 @@ export class AuthController {
                 message: result.message,
                 error: { result },
             });
-            return
+            return;
         }
 
         res.status(StatusCodes.OK).json({
@@ -103,7 +103,5 @@ export class AuthController {
             message: 'Usuario encontrado com sucesso!',
             error: {},
         });
-
     }
-
 }

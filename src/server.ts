@@ -3,6 +3,7 @@ import { testDbConnection } from './database/knex/connection';
 import dotenv from 'dotenv';
 import router from './routes/routes';
 import authRouter from './routes/authRoutes';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -10,8 +11,15 @@ const app = express();
 
 app.use(express.json());
 
+app.use(
+    cors({
+        origin: 'http://localhost:3000',
+        credentials: true,
+    })
+);
+
 app.use('/auth', authRouter);
-// app.use('/contentflow/api', router);
+app.use('/contentflow/api', router);
 
 testDbConnection()
     .then(() => {

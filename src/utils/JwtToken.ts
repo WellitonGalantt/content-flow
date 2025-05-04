@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
 dotenv.config();
@@ -17,7 +17,7 @@ export class JwtToken {
         if (!jwtSecret) {
             return new Error('A secret key invalida ou nao encontrada!');
         }
-        
+
         return jwt.verify(token, jwtSecret);
     }
 }
