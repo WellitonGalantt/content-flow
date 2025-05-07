@@ -62,35 +62,45 @@ export class Middlewares {
 
     static validateJwtToken() {
         return (req: Request, res: Response, next: NextFunction) => {
-            const authHeader = req.headers.authorization;
-            const token = authHeader?.includes('Bearer') ? authHeader.split(' ')[1] : authHeader;
+            try {
+                const authHeader = req.headers.authorization;
+                const token = authHeader?.includes('Bearer') ? authHeader.split(' ')[1] : authHeader;
+                if (!token) {
+                    res.status(StatusCodes.BAD_REQUEST).json({
+                        sucess: false,
+                        statusCode: StatusCodes.BAD_REQUEST,
+                        data: {},
+                        message: 'Erro ao pegar o token',
+                        error: { error: 'Token nao encontrado' },
+                    });
+                    return;
+                }
 
-            if (!token) {
-                res.status(StatusCodes.BAD_REQUEST).json({
-                    sucess: false,
-                    statusCode: StatusCodes.BAD_REQUEST,
-                    data: {},
-                    message: 'Erro ao pegar o token',
-                    error: { error: 'Token nao encontrado' },
-                });
+                const decodedToken = JwtToken.varifyToken(token);
+                if (decodedToken instanceof Error || !decodedToken) {
+                    res.status(StatusCodes.BAD_REQUEST).json({
+                        sucess: false,
+                        statusCode: StatusCodes.BAD_REQUEST,
+                        data: {},
+                        message: 'Erro ao verificar o token',
+                        error: decodedToken,
+                    });
+                    return;
+                }
+
+                req.user = decodedToken;
+                next();
                 return;
-            }
-
-            const decodedToken = JwtToken.varifyToken(token);
-            if (decodedToken instanceof Error) {
+            } catch (err: any) {
                 res.status(StatusCodes.BAD_REQUEST).json({
                     sucess: false,
                     statusCode: StatusCodes.BAD_REQUEST,
                     data: {},
                     message: 'Erro ao verificar o token',
-                    error: decodedToken,
+                    error: err,
                 });
                 return;
             }
-
-            req.user = decodedToken;
-            next();
-            return;
         };
     }
 }

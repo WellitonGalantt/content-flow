@@ -3,7 +3,6 @@ import { writeFile, readFile } from 'fs/promises';
 import { ICreateProjectData, IRoteiro, IUpScriptData, ITagData, IUpProjectData } from '../shared/types/appTypes';
 import { projectModels } from '../models/ProjectModels';
 import { jsonrepair } from 'jsonrepair';
-import Knex from 'knex';
 import { db } from '../database/knex/connection';
 
 export class ProjectServices {
@@ -45,7 +44,61 @@ export class ProjectServices {
         }
     }
 
+    static async getAllProject(userId: number): Promise<Object | Error | null> {
+        try {
+            const result = await projectModels.getAllProject(userId);
+            if (!result) {
+                return null;
+            }
+
+            return result;
+        } catch (err: any) {
+            console.log(err);
+            return null;
+        }
+    }
+
+    static async getProjectById(projectId: number, userId: number): Promise<Object | Error> {
+        try {
+            const result = await projectModels.getProjectById(projectId, userId)
+            if(!result){
+                return new Error('Nao foi posivel encontrar projeto com esse id!');
+            }
+
+            return result;
+        }
+        catch (err:any) {
+            return err
+        }
+    }
+
+    static async updateProject(projectId: number, userId: number, projectData: ICreateProjectData) { 
+        try{
+            const existProject = await projectModels.existProject(projectId);
+            if(!existProject){
+                return new Error('Nao existe um projeto com esse ID!');
+            }
+
+            let updateData = {}
+
+            if(existProject.title == projectData.title){
+            }
+
+        }
+        catch ( err: any ){
+
+        }
+     }
+
+    static async deleteProjectById() { }
+
     static async createTag(dataTag: ITagData) {
         await projectModels.createTag(dataTag);
     }
+
+    static async getTagById() { }
+
+    static async getAllTag() { }
+
+    static async deleteTagById() { }
 }

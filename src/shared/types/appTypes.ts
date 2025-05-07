@@ -12,6 +12,11 @@ export interface ICreateProjectData {
     text: string;
 }
 
+export interface IUpdateProjectData {
+    title: string;
+    date_submit: string;
+}
+
 export interface IUpProjectData {
     title: string;
     date_submit: string;
