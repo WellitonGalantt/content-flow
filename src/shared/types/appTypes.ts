@@ -13,8 +13,9 @@ export interface ICreateProjectData {
 }
 
 export interface IUpdateProjectData {
-    title: string;
-    date_submit: string;
+    title?: string;
+    date_submit?: string;
+    updated_at?: string
 }
 
 export interface IUpProjectData {

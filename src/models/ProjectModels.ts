@@ -1,6 +1,6 @@
 import { Knex } from 'knex';
 import { db } from '../database/knex/connection';
-import { IUpScriptData, ITagData, IUpProjectData } from '../shared/types/appTypes';
+import { IUpScriptData, ITagData, IUpProjectData, IUpdateProjectData } from '../shared/types/appTypes';
 
 export class projectModels {
     static async existProject(projectId: number){
@@ -40,6 +40,10 @@ export class projectModels {
                 's.user_text as user_text',
                 's.ia_text as ia_text'
         ).where('user_id', userId).where('p.id', projectId).first();
+    }
+
+    static async updateProject(updateProject: IUpdateProjectData, projectId: number, userId: number){
+        await db('project').update(updateProject).where({'id': projectId, 'user_id': userId});
     }
 
     static async createTag(dataTag: ITagData) {

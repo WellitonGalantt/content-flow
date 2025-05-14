@@ -107,11 +107,22 @@ export class ProjectControllers {
         }
         const result = await ProjectServices.updateProject(projectId, userId, projectData);
 
+        if(result instanceof Error){
+            res.status(StatusCodes.BAD_REQUEST).json({
+                sucess: false,
+                statusCode: StatusCodes.BAD_REQUEST,
+                data: {},
+                message: `Erro ao atualizar o projeto.`,
+                error: result.message,
+            });
+            return;
+        }
+
         res.status(StatusCodes.OK).json({
             sucess: true,
             statusCode: StatusCodes.OK,
-            data: {},
-            message: 'Tag criada com sucesso!',
+            data: result,
+            message: 'Projeto aualizado com sucesso',
             error: {},
         });
     }

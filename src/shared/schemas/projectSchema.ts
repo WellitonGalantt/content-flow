@@ -7,7 +7,8 @@ export const createProjectSchema: yup.ObjectSchema<ICreateProjectData> = yup.obj
     text: yup.string().required('Data é obrigatorio!')
 })
 
-export const updateProjectSchema: yup.ObjectSchema<IUpdateProjectData> = yup.object().shape({
-    title: yup.string().required('O tiulo é obrigatorio!'),
+export const updateProjectSchema: yup.ObjectSchema<Omit<IUpdateProjectData, 'updated_at'>> = yup.object().shape({
+    title: yup.string().min(14, 'Titulo deve ter pelo menos 14 caracteres!').required('O tiulo é obrigatorio!'),
     date_submit: yup.string().required('Data de envio é obrigatorio!')
+    
 })
