@@ -1,9 +1,17 @@
 import { createContentScript } from '../agents/textApiAi';
 import { writeFile, readFile } from 'fs/promises';
-import { ICreateProjectData, IRoteiro, IUpScriptData, ITagData, IUpProjectData, IUpdateProjectData } from '../shared/types/appTypes';
+import {
+    ICreateProjectData,
+    IRoteiro,
+    IUpScriptData,
+    ITagData,
+    IUpProjectData,
+    IUpdateProjectData,
+} from '../shared/types/appTypes';
 import { projectModels } from '../models/ProjectModels';
 import { jsonrepair } from 'jsonrepair';
 import { db } from '../database/knex/connection';
+import { isValidHexColor } from '../utils/validateColor';
 
 export class ProjectServices {
     static async createProject(data: ICreateProjectData, userId: number): Promise<Error | null> {
@@ -60,69 +68,88 @@ export class ProjectServices {
 
     static async getProjectById(projectId: number, userId: number): Promise<Object | Error> {
         try {
-            const result = await projectModels.getProjectById(projectId, userId)
-            if(!result){
+            const result = await projectModels.getProjectById(projectId, userId);
+            if (!result) {
                 return new Error('Nao foi posivel encontrar projeto com esse id!');
             }
 
             return result;
-        }
-        catch (err:any) {
-            return err
+        } catch (err: any) {
+            return err;
         }
     }
 
-    static async updateProject(projectId: number, userId: number, projectData: IUpdateProjectData) { 
-        try{
+    static async updateProject(projectId: number, userId: number, projectData: IUpdateProjectData) {
+        try {
             const existProject = await projectModels.existProject(projectId);
-            if(!existProject){
+            if (!existProject) {
                 return new Error('Nao existe um projeto com esse ID!');
             }
 
-            let updateData: IUpdateProjectData = {}
+            let updateData: IUpdateProjectData = {};
 
-            if(existProject.title != projectData.title){
-                updateData.title = projectData.title
+            if (existProject.title != projectData.title) {
+                updateData.title = projectData.title;
             }
 
-            if(projectData.date_submit){
+            if (projectData.date_submit) {
                 const data1 = new Date(projectData.date_submit);
                 const data2 = new Date(existProject.date_submit);
 
                 //retorna o tempo, se for invalido retorna nan e o isNaN retorna boolean
-                if(isNaN(data1.getTime()) || isNaN(data2.getTime())){
-                    return new Error('Uma das datas sao invalidas!')
+                if (isNaN(data1.getTime()) || isNaN(data2.getTime())) {
+                    return new Error('Uma das datas sao invalidas!');
                 }
-                
-                if(data1 != data2){
-                    updateData.date_submit = projectData.date_submit
+
+                if (data1 != data2) {
+                    updateData.date_submit = projectData.date_submit;
                 }
             }
 
-            if(updateData){
+            if (updateData) {
                 updateData.updated_at = new Date(Date.now()).toISOString();
                 await projectModels.updateProject(updateData, projectId, userId);
             }
-
-        }
-        catch ( err: any ){
-            if( err instanceof Error){
+        } catch (err: any) {
+            if (err instanceof Error) {
                 return err;
-            }else{
-                return new Error('Um erro desconhecido aconteceu: ' + err)
+            } else {
+                return new Error('Um erro desconhecido aconteceu: ' + err);
             }
         }
-     }
-
-    static async deleteProjectById() { }
-
-    static async createTag(dataTag: ITagData) {
-        await projectModels.createTag(dataTag);
     }
 
-    static async getTagById() { }
+    static async deleteProjectById() {}
 
-    static async getAllTag() { }
+    static async createTag(dataTag: ITagData, userId: number): Promise<Error | number> {
+        try {
+            const existTagName = await projectModels.getOneTag({ tag_name: dataTag.tag_name }, userId);
 
-    static async deleteTagById() { }
+            if (existTagName) {
+                return new Error('Voce ja tem uma tag com esse nome!');
+            }
+
+            if (dataTag.color) {
+                if (!isValidHexColor(dataTag.color)) {
+                    return new Error('Codigo da cor invalido!');
+                }
+            }
+
+            const idTag = await projectModels.createTag(dataTag);
+
+            return 1;
+        } catch (err) {
+            if (err instanceof Error) {
+                return err;
+            } else {
+                return new Error('Um erro desconhecido aconteceu: ' + err);
+            }
+        }
+    }
+
+    static async getTagById() {}
+
+    static async getAllTag() {}
+
+    static async deleteTagById() {}
 }

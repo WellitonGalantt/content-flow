@@ -91,7 +91,7 @@ export class ProjectControllers {
         return;
     }
 
-    static async updateProject(req: Request<{ id?: string }, {}, ICreateProjectData>, res: Response) { 
+    static async updateProject(req: Request<{ id?: string }, {}, ICreateProjectData>, res: Response) {
         const projectId = Number(req.params.id);
         const projectData = req.body;
         const userId = req.user.id;
@@ -107,7 +107,7 @@ export class ProjectControllers {
         }
         const result = await ProjectServices.updateProject(projectId, userId, projectData);
 
-        if(result instanceof Error){
+        if (result instanceof Error) {
             res.status(StatusCodes.BAD_REQUEST).json({
                 sucess: false,
                 statusCode: StatusCodes.BAD_REQUEST,
@@ -127,26 +127,38 @@ export class ProjectControllers {
         });
     }
 
-    static async deleteProjectById(req: Request, res: Response) { }
+    static async deleteProjectById(req: Request, res: Response) {}
 
     //------ tags ----
 
     static async createTag(req: Request<{}, {}, ITagData>, res: Response) {
         const dataTag = req.body;
-        await ProjectServices.createTag(dataTag);
+        const userId = req.user.id;
+
+        const result = await ProjectServices.createTag(dataTag, userId);
+        if (result instanceof Error) {
+            res.status(StatusCodes.BAD_REQUEST).json({
+                sucess: false,
+                statusCode: StatusCodes.BAD_REQUEST,
+                data: {},
+                message: 'Erro ao Criar a tag',
+                error: result,
+            });
+            return;
+        }
 
         res.status(StatusCodes.OK).json({
             sucess: true,
             statusCode: StatusCodes.OK,
-            data: {},
+            data: result,
             message: 'Tag criada com sucesso!',
             error: {},
         });
     }
 
-    static async getTagById(req: Request<{}, {}, ITagData>, res: Response) { }
+    static async getTagById(req: Request<{}, {}, ITagData>, res: Response) {}
 
-    static async getAllTag(req: Request<{}, {}, ITagData>, res: Response) { }
+    static async getAllTag(req: Request<{}, {}, ITagData>, res: Response) {}
 
-    static async deleteTagById(req: Request<{}, {}, ITagData>, res: Response) { }
+    static async deleteTagById(req: Request<{}, {}, ITagData>, res: Response) {}
 }

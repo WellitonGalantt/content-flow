@@ -1,9 +1,14 @@
 import { Knex } from 'knex';
 import * as dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config();
+// ES modules a variavel __dirname nao existe, o import .meta.url retoirna o caminho absoluto do arquivo atual
+//e o fileURLToPath trnaforma a url em um caminho de diretorio
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
-export const development: Knex.Config = {
+const dbConfigBase = {
     client: 'pg',
     connection: {
         host: process.env.DB_HOST,
@@ -21,10 +26,10 @@ export const development: Knex.Config = {
     },
 };
 
-export const test: Knex.Config = {
-    ...development,
+const dbConfig: { [key: string]: Knex.Config } = {
+    development: { ...dbConfigBase },
+    test: { ...dbConfigBase },
+    production: { ...dbConfigBase },
 };
 
-export const production: Knex.Config = {
-    ...development,
-};
+export default dbConfig;

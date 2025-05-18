@@ -15,7 +15,7 @@ export interface ICreateProjectData {
 export interface IUpdateProjectData {
     title?: string;
     date_submit?: string;
-    updated_at?: string
+    updated_at?: string;
 }
 
 export interface IUpProjectData {
@@ -66,5 +66,5 @@ export interface IUpScriptData {
 
 export interface ITagData {
     tag_name: string;
-    color: string;
+    color?: string;
 }

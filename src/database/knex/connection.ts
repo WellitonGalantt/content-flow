@@ -1,5 +1,5 @@
 import knex from 'knex';
-import { development, test, production } from './knexfile';
+import dbConfig from './knexfile.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -7,13 +7,13 @@ dotenv.config();
 const getEnvoriment = () => {
     switch (process.env.NODE_ENV) {
         case 'dev':
-            return development;
+            return dbConfig.development;
         case 'production':
-            return production;
+            return dbConfig.production;
         case 'test':
-            return test;
+            return dbConfig.test;
         default:
-            return development;
+            return dbConfig.development;
     }
 };
 
