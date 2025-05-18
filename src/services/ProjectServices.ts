@@ -121,9 +121,12 @@ export class ProjectServices {
 
     static async deleteProjectById() {}
 
-    static async createTag(dataTag: ITagData, userId: number): Promise<Error | number> {
+    static async createTag(dataTag: ITagData): Promise<Error | { id: number }> {
         try {
-            const existTagName = await projectModels.getOneTag({ tag_name: dataTag.tag_name }, userId);
+            const [existTagName] = await projectModels.getOneTag(
+                { tag_name: dataTag.tag_name },
+                dataTag.user_id as number
+            );
 
             if (existTagName) {
                 return new Error('Voce ja tem uma tag com esse nome!');
@@ -135,9 +138,8 @@ export class ProjectServices {
                 }
             }
 
-            const idTag = await projectModels.createTag(dataTag);
-
-            return 1;
+            const [idTag] = await projectModels.createTag(dataTag);
+            return idTag;
         } catch (err) {
             if (err instanceof Error) {
                 return err;
@@ -147,9 +149,37 @@ export class ProjectServices {
         }
     }
 
-    static async getTagById() {}
+    static async getTagById(tagId: number, userId: number): Promise<Error | object> {
+        try {
+            const [existTag] = await projectModels.getOneTag({ id: tagId }, userId);
 
-    static async getAllTag() {}
+            if (!existTag) {
+                return new Error('Nao existe uma tag com esse id!');
+            }
+
+            return existTag;
+        } catch (err) {
+            if (err instanceof Error) {
+                return err;
+            } else {
+                return new Error('Um erro desconhecido aconteceu: ' + err);
+            }
+        }
+    }
+
+    static async getAllTags(userId: number): Promise<Error | Array<object>> {
+        try {
+            const tagList = await projectModels.getAllTags(userId);
+
+            return tagList;
+        } catch (err) {
+            if (err instanceof Error) {
+                return err;
+            } else {
+                return new Error('Um erro desconhecido aconteceu: ' + err);
+            }
+        }
+    }
 
     static async deleteTagById() {}
 }

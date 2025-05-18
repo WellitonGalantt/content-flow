@@ -67,4 +67,5 @@ export interface IUpScriptData {
 export interface ITagData {
     tag_name: string;
     color?: string;
+    user_id?: number;
 }

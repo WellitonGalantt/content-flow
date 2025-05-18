@@ -6,10 +6,12 @@ export class projectModels {
     static async existProject(projectId: number) {
         return await db('project').where('id', projectId).first();
     }
+
     static async createProject(projectObj: IUpProjectData, trx: Knex.Transaction): Promise<number | void> {
         const [result] = await db('project').transacting(trx).insert(projectObj).returning('id');
         return result.id;
     }
+
     static async createScript(scriptObj: IUpScriptData, trx: Knex.Transaction): Promise<void> {
         await db('script').transacting(trx).insert(scriptObj);
         return;
@@ -49,12 +51,16 @@ export class projectModels {
         await db('project').update(updateProject).where({ id: projectId, user_id: userId });
     }
 
-    static async createTag(dataTag: ITagData): Promise<number> {
+    static async createTag(dataTag: ITagData): Promise<Array<{ id: number }>> {
         return await db('tag').insert(dataTag).returning('id');
     }
 
     static async getOneTag(getData: { tag_name: string } | { id: number }, userId: number): Promise<any> {
         return await db('tag').where(getData).where('user_id', userId).returning('id');
+    }
+
+    static async getAllTags(userId: number): Promise<Array<any>> {
+        return await db('tag').where('user_id', userId).returning('*');
     }
 
     static async setProjectTag(projectId: number, tagId: number, trx: Knex.Transaction) {

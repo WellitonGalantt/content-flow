@@ -19,4 +19,5 @@ export const createTagSchema: yup.ObjectSchema<ITagData> = yup.object().shape({
         .max(12, 'O nome da tag deve ter no maximo 12 caracteres')
         .required('Nome da tag é obrigatorio'),
     color: yup.string().matches(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, 'Cor inválida. Use formato #RRGGBB ou #RGB'),
+    user_id: yup.number(),
 });

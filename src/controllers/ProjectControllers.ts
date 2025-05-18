@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { ProjectServices } from '../services/ProjectServices';
 import { ICreateProjectData, ITagData } from '../shared/types/appTypes';
+import { sucess, error } from '../utils/responseFormat';
 
 export class ProjectControllers {
     static async createProject(req: Request<{}, {}, ICreateProjectData>, res: Response) {
@@ -63,7 +64,7 @@ export class ProjectControllers {
                 sucess: false,
                 statusCode: StatusCodes.BAD_REQUEST,
                 data: {},
-                message: `O parametro id é obrigatório!!`,
+                message: `O parametro id do projeto é obrigatório!!`,
                 error: {},
             });
             return;
@@ -133,16 +134,16 @@ export class ProjectControllers {
 
     static async createTag(req: Request<{}, {}, ITagData>, res: Response) {
         const dataTag = req.body;
-        const userId = req.user.id;
+        dataTag.user_id = req.user.id;
 
-        const result = await ProjectServices.createTag(dataTag, userId);
+        const result = await ProjectServices.createTag(dataTag);
         if (result instanceof Error) {
             res.status(StatusCodes.BAD_REQUEST).json({
                 sucess: false,
                 statusCode: StatusCodes.BAD_REQUEST,
                 data: {},
                 message: 'Erro ao Criar a tag',
-                error: result,
+                error: result.message,
             });
             return;
         }
@@ -156,9 +157,40 @@ export class ProjectControllers {
         });
     }
 
-    static async getTagById(req: Request<{}, {}, ITagData>, res: Response) {}
+    static async getAllTags(req: Request, res: Response) {
+        console.log('➡ Entrou em getAllTags');
+        const userId = req.user.id;
 
-    static async getAllTag(req: Request<{}, {}, ITagData>, res: Response) {}
+        const result = await ProjectServices.getAllTags(userId);
+
+        if (result instanceof Error) {
+            error(res, 'Erro ao buscar as tags!', result.message);
+            return;
+        }
+
+        sucess(res, 'Sucesso ao buscar as tags', result);
+        return;
+    }
+
+    static async getTagById(req: Request<{ id?: number }>, res: Response) {
+        console.log('➡ Entrou em getTagById');
+        const tagId = req.params.id;
+        const userId = req.user.id;
+        if (!tagId) {
+            error(res, 'O parametro id da tag é obrigatorio!');
+            return;
+        }
+
+        const result = await ProjectServices.getTagById(tagId, userId);
+
+        if (result instanceof Error) {
+            error(res, 'Error ao buscar a tag', result.message);
+            return;
+        }
+
+        sucess(res, 'Sucesso ao buscar a tag!', result);
+        return;
+    }
 
     static async deleteTagById(req: Request<{}, {}, ITagData>, res: Response) {}
 }

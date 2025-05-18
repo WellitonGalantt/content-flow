@@ -1,5 +1,4 @@
 import Router from 'express';
-import { Request, Response } from 'express';
 import { ProjectControllers } from '../controllers/ProjectControllers';
 import { Middlewares } from '../middlewares/Middleware';
 import { createProjectSchema, createTagSchema, updateProjectSchema } from '../shared/schemas/projectSchema';
@@ -35,19 +34,19 @@ router.delete('/project/:id', Middlewares.validateJwtToken(), ProjectControllers
 
 //Criar uma tag
 router.post(
-    '/project/tag',
+    '/project-tag',
     Middlewares.validateJwtToken(),
     Middlewares.validateSchema(createTagSchema),
     ProjectControllers.createTag
 );
 
-//Buscar as tags
-router.post('/project/tag', Middlewares.validateJwtToken(), ProjectControllers.getTagById);
+//Buscar todas as tags
+router.get('/project-tags', Middlewares.validateJwtToken(), ProjectControllers.getAllTags);
 
-//Buscar uma tags
-router.post('/project/tag/:id', Middlewares.validateJwtToken(), ProjectControllers.getAllTag);
+//Buscar uma tag por id
+router.get('/project-tag/:id', Middlewares.validateJwtToken(), ProjectControllers.getTagById);
 
 //Deletar uma tag
-router.post('/project/tag', Middlewares.validateJwtToken(), ProjectControllers.deleteTagById);
+router.delete('/project-tag', Middlewares.validateJwtToken(), ProjectControllers.deleteTagById);
 
 export default router;
