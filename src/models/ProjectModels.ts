@@ -51,6 +51,16 @@ export class projectModels {
         await db('project').update(updateProject).where({ id: projectId, user_id: userId });
     }
 
+    static async deleteProjectById(projectId: number, userId:number, trx: Knex.Transaction): Promise<void> {
+        await db('project').transacting(trx).delete().where('id', projectId).where('user_id', userId);
+        return;
+    }
+
+    static async deleteScriptById(projectId: number, trx: Knex.Transaction): Promise<void> {
+        await db('script').transacting(trx).delete('*').where('project_id', projectId);
+        return;
+    }
+
     static async createTag(dataTag: ITagData): Promise<Array<{ id: number }>> {
         return await db('tag').insert(dataTag).returning('id');
     }
@@ -63,8 +73,18 @@ export class projectModels {
         return await db('tag').where('user_id', userId).returning('*');
     }
 
+    static async deleteTagById(tagId: number): Promise<void> {
+        await db('tag').delete().where('id', tagId);
+        return;
+    }
+
     static async setProjectTag(projectId: number, tagId: number, trx: Knex.Transaction) {
         await db('project_tag').transacting(trx).insert({ project_id: projectId, tag_id: tagId });
+        return;
+    }
+
+    static async deleteProjectTag(projectId: number, trx: Knex.Transaction) {
+        await db('project_tag').transacting(trx).delete('*').where('project_id', projectId);
         return;
     }
 }

@@ -47,6 +47,6 @@ router.get('/project-tags', Middlewares.validateJwtToken(), ProjectControllers.g
 router.get('/project-tag/:id', Middlewares.validateJwtToken(), ProjectControllers.getTagById);
 
 //Deletar uma tag
-router.delete('/project-tag', Middlewares.validateJwtToken(), ProjectControllers.deleteTagById);
+router.delete('/project-tag/:id', Middlewares.validateJwtToken(), ProjectControllers.deleteTagById);
 
 export default router;

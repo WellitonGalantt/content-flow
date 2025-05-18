@@ -60,9 +60,12 @@ export class ProjectServices {
             }
 
             return result;
-        } catch (err: any) {
-            console.log(err);
-            return null;
+        } catch (err) {
+            if (err instanceof Error) {
+                return err;
+            } else {
+                return new Error('Um erro desconhecido aconteceu: ' + err);
+            }
         }
     }
 
@@ -119,7 +122,30 @@ export class ProjectServices {
         }
     }
 
-    static async deleteProjectById() {}
+    static async deleteProjectById(projectId: number, userId: number): Promise<Error | void> {
+        try {
+
+            const existProject = await projectModels.getProjectById(projectId, userId);
+
+            if (!existProject) {
+                return new Error('Nao existe um projeto com esse id!');
+            }
+
+            await db.transaction(async (trx) => {
+                await projectModels.deleteScriptById(projectId, trx);
+                await projectModels.deleteProjectTag(projectId, trx);
+                await projectModels.deleteProjectById(projectId, userId, trx);
+            })
+
+            return;
+        } catch (err) {
+            if (err instanceof Error) {
+                return err;
+            } else {
+                return new Error('Um erro desconhecido aconteceu: ' + err);
+            }
+        }
+    }
 
     static async createTag(dataTag: ITagData): Promise<Error | { id: number }> {
         try {
@@ -181,5 +207,24 @@ export class ProjectServices {
         }
     }
 
-    static async deleteTagById() {}
+    static async deleteTagById(tagId: number, userId: number): Promise<Error | void> {
+        try {
+
+            const [existTag] = await projectModels.getOneTag({ id: tagId }, userId);
+
+            if (!existTag) {
+                return new Error('Nao existe uma tag com esse id!');
+            }
+
+            await projectModels.deleteTagById(tagId);
+            return
+
+        } catch (err) {
+            if (err instanceof Error) {
+                return err;
+            } else {
+                return new Error('Um erro desconhecido aconteceu: ' + err);
+            }
+        }
+    }
 }
