@@ -128,25 +128,24 @@ export class ProjectControllers {
         });
     }
 
-    static async deleteProjectById(req: Request<{id?: number}>, res: Response) {
+    static async deleteProjectById(req: Request<{ id?: number }>, res: Response) {
         const projectId = req.params.id;
         const userId = req.user.id;
 
-        if(!projectId){
+        if (!projectId) {
             error(res, 'O parametro Id do projeto é obrigatório!');
             return;
         }
 
         const result = await ProjectServices.deleteProjectById(projectId, userId);
 
-        if( result instanceof Error){
-            error(res, 'Error ao excluir o projeto!', result.message)
+        if (result instanceof Error) {
+            error(res, 'Error ao excluir o projeto!', result.message);
             return;
         }
 
         sucess(res, 'Projeto excluido com secesso!');
         return;
-
     }
 
     //------ tags ----
@@ -209,7 +208,7 @@ export class ProjectControllers {
         return;
     }
 
-    static async deleteTagById(req: Request<{id?: number}>, res: Response) {
+    static async deleteTagById(req: Request<{ id?: number }>, res: Response) {
         const tagId = req.params.id;
         const userId = req.user.id;
         if (!tagId) {
@@ -218,14 +217,13 @@ export class ProjectControllers {
         }
 
         const result = await ProjectServices.deleteTagById(tagId, userId);
-        
-        if(result instanceof Error){
+
+        if (result instanceof Error) {
             error(res, 'Erro ao deletar a tag!', result.message);
             return;
         }
 
         sucess(res, 'Tag excluida com sucesso!');
         return;
-
     }
 }

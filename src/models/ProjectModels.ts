@@ -51,7 +51,7 @@ export class projectModels {
         await db('project').update(updateProject).where({ id: projectId, user_id: userId });
     }
 
-    static async deleteProjectById(projectId: number, userId:number, trx: Knex.Transaction): Promise<void> {
+    static async deleteProjectById(projectId: number, userId: number, trx: Knex.Transaction): Promise<void> {
         await db('project').transacting(trx).delete().where('id', projectId).where('user_id', userId);
         return;
     }

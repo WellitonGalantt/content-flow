@@ -124,7 +124,6 @@ export class ProjectServices {
 
     static async deleteProjectById(projectId: number, userId: number): Promise<Error | void> {
         try {
-
             const existProject = await projectModels.getProjectById(projectId, userId);
 
             if (!existProject) {
@@ -135,7 +134,7 @@ export class ProjectServices {
                 await projectModels.deleteScriptById(projectId, trx);
                 await projectModels.deleteProjectTag(projectId, trx);
                 await projectModels.deleteProjectById(projectId, userId, trx);
-            })
+            });
 
             return;
         } catch (err) {
@@ -209,7 +208,6 @@ export class ProjectServices {
 
     static async deleteTagById(tagId: number, userId: number): Promise<Error | void> {
         try {
-
             const [existTag] = await projectModels.getOneTag({ id: tagId }, userId);
 
             if (!existTag) {
@@ -217,8 +215,7 @@ export class ProjectServices {
             }
 
             await projectModels.deleteTagById(tagId);
-            return
-
+            return;
         } catch (err) {
             if (err instanceof Error) {
                 return err;
